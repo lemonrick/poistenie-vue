@@ -1,8 +1,5 @@
-# Quasar App (poistenie-vue)
+# Vue.js App (poistenie-vue)
 
-A Quasar Project
-
-## Install the dependencies
 ```bash
 yarn
 # or
@@ -14,28 +11,10 @@ npm install
 quasar dev
 ```
 
-
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
-
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
+<p>
+<img src="img/1.png" width="600"/>
+&nbsp;
+<img src="img/2.png" width="600"/>
+&nbsp;
+<img src="img/3.png" width="600"/>
+</p>
