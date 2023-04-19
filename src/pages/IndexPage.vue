@@ -149,7 +149,7 @@
               type="reset"
               color="primary"
             />
-            <q-btn size="lg" label="pridať" icon="add_circle" type="submit" color="primary"/>
+            <q-btn size="lg" label="Vypočítaj" type="submit" color="primary"/>
           </div>
         </q-form>
         <div class="text-center vysledok">
