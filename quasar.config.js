@@ -55,7 +55,7 @@ module.exports = configure(function (ctx) {
 
       // transpile: false,
       // publicPath: '/',
-      publicPath: process.env.NODE_ENV === 'production' ? '/poistenie-vue/' : '/',
+      publicPath: process.env.NODE_ENV === 'production' ? '/poistenie-vue/spa/' : '/',
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
