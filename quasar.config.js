@@ -26,7 +26,6 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
     boot: [
-
       'axios',
     ],
 
@@ -55,7 +54,7 @@ module.exports = configure(function (ctx) {
 
       // transpile: false,
       // publicPath: '/',
-      publicPath: process.env.NODE_ENV === 'production' ? '/poistenie-vue/spa/' : '/',
+      publicPath: publicPath: ctx.dev ? '/' : '/poistenie-vue/spa/',
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
