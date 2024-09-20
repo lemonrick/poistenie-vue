@@ -54,10 +54,7 @@ module.exports = configure(function (ctx) {
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
       // transpile: false,
-      // publicPath: '/',
- publicPath: process.env.NODE_ENV === 'production'
-    ? '/poistenie-vue/' // zmeň na názov tvojho repozitára
-    : '/',
+      publicPath: '/',
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
