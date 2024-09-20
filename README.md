@@ -1,6 +1,6 @@
 # Vue.js App (poistenie-vue)
 
-<a href="https://lemonrick.github.io/poistenie-vue/" target="_blank">Live Demo</a>
+[Live Demo](https://lemonrick.github.io/poistenie-vue/)
 
 
 ```bash
