@@ -26,14 +26,13 @@ module.exports = [
       'node_modules/**',
       'src-bex/www/**',
       'src-capacitor/**',
-      'src-cordova/**',
-      'babel.config.js'
+      'src-cordova/**'
     ]
   },
   js.configs.recommended,
   ...vuePlugin.configs['flat/essential'],
   {
-    files: ['eslint.config.js', 'quasar.config.js', 'babel.config.js'],
+    files: ['eslint.config.js', 'quasar.config.ts'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: {

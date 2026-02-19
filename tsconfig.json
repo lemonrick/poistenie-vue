@@ -12,5 +12,16 @@
       "boot/*": ["src/boot/*"],
       "stores/*": ["src/stores/*"]
     }
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "dist",
+    ".quasar",
+    "node_modules",
+    "quasar.config.ts"
+  ]
 }
