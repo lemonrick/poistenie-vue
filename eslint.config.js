@@ -3,6 +3,7 @@ const globals = require('globals')
 const vuePlugin = require('eslint-plugin-vue')
 const vueParser = require('vue-eslint-parser')
 const babelParser = require('@babel/eslint-parser')
+const tsParser = require('@typescript-eslint/parser')
 
 const appGlobals = {
   ga: 'readonly',
@@ -64,11 +65,33 @@ module.exports = [
     }
   },
   {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module'
+      },
+      globals: {
+        ...globals.browser,
+        ...appGlobals
+      }
+    },
+    rules: {
+      'prefer-promise-reject-errors': 'off',
+      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-undef': 'off'
+    }
+  },
+  {
     files: ['**/*.vue'],
     languageOptions: {
       parser: vueParser,
       parserOptions: {
-        parser: babelParser,
+        parser: {
+          js: babelParser,
+          ts: tsParser
+        },
         requireConfigFile: false,
         babelOptions: {
           configFile: false,
