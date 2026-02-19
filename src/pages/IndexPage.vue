@@ -221,35 +221,25 @@ export default defineComponent({
   methods: {
     onSubmit() {
       this.vysledok = ''
-      if (this.typ === 'kratkodobe') {
-        let kolko_dni = this.numberOfDays(
-          new Date(this.dateParser(this.formData.zaciatok_poistenia).toString()),
-          new Date(this.dateParser(this.koniec_poistenia).toString()),
-        )
-        let cena_balika = this.balikMoznosti.filter(a => a.id === this.formData.balik)[0].kratkodoba_cena
-        let pocet_osob = this.formData.pocet_osob
-        let storno = 1
-        if (('pripoistenia' in this.formData) && this.formData.pripoistenia.includes("storno_cesty")) {
-          storno = this.pripoisteniaMoznosti.filter(a => a.id === "storno_cesty")[0].kratkodoba_prirazka
-        }
-        let sportove = 1
-        if (('pripoistenia' in this.formData) && this.formData.pripoistenia.includes("sportove_aktivity")) {
-          sportove = this.pripoisteniaMoznosti.filter(a => a.id === "sportove_aktivity")[0].kratkodoba_prirazka
-        }
-        this.vysledok = ('Suma: ' + ((kolko_dni * cena_balika * pocet_osob * storno * sportove).toFixed(2)).toString() + ' €').replaceAll('.', ',')
-      } else if (this.typ === 'celorocne') {
-        let cena_balika = this.balikMoznosti.filter(a => a.id === this.formData.balik)[0].celorocna_cena
-        let pocet_osob = this.formData.pocet_osob
-        let storno = 1
-        if (('pripoistenia' in this.formData) && this.formData.pripoistenia.includes("storno_cesty")) {
-          storno = this.pripoisteniaMoznosti.filter(a => a.id === "storno_cesty")[0].celorocna_prirazka
-        }
-        let sportove = 1
-        if (('pripoistenia' in this.formData) && this.formData.pripoistenia.includes("sportove_aktivity")) {
-          sportove = this.pripoisteniaMoznosti.filter(a => a.id === "sportove_aktivity")[0].celorocna_prirazka
-        }
-        this.vysledok = ('Suma: ' + ((cena_balika * pocet_osob * storno * sportove).toFixed(2)).toString() + ' €').replaceAll('.', ',')
+      const selectedBalik = this.balikMoznosti.find((item) => item.id === this.formData.balik)
+      const pocetOsob = this.formData.pocet_osob
+
+      if (!selectedBalik || !pocetOsob) {
+        return
       }
+
+      const priceType = this.typ === 'kratkodobe' ? 'kratkodoba' : 'celorocna'
+      const zakladnaCena = selectedBalik[`${priceType}_cena`]
+      const storno = this.getPripoisteniePrirazka('storno_cesty', priceType)
+      const sportove = this.getPripoisteniePrirazka('sportove_aktivity', priceType)
+      const pocetDni = this.typ === 'kratkodobe'
+        ? this.numberOfDays(
+          this.parseDate(this.formData.zaciatok_poistenia),
+          this.parseDate(this.koniec_poistenia)
+        )
+        : 1
+
+      this.vysledok = (`Suma: ${(pocetDni * zakladnaCena * pocetOsob * storno * sportove).toFixed(2)} €`).replace('.', ',')
     },
     onReset() {
       this.typ = 'kratkodobe'
@@ -259,12 +249,9 @@ export default defineComponent({
       this.vysledok = ''
       setTimeout(this.$refs.form.resetValidation, 0)
     },
-    dateParser(dateString) { // '5.4.2023'
-      dateString = dateString.split(".")
-      let day = dateString [0].padStart(2, '0')
-      let month = dateString [1].padStart(2, '0')
-      let year = dateString [2]
-      return year + '-' + month + '-' + day // 2023-04-05
+    parseDate(dateString) {
+      const [day, month, year] = dateString.split('.').map(Number)
+      return new Date(year, month - 1, day)
     },
     isValidDate(val) {
       const datePattern = /^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[012])\.\d{4}$/
@@ -279,23 +266,23 @@ export default defineComponent({
         (this.isValidDateBoolean(val)) && (this.koniec_poistenia !== null) &&
         (this.isValidDateBoolean(this.koniec_poistenia)) &&
         this.datesAreOnSameDay(
-          new Date(this.dateParser(val).toString()),
-          new Date(this.dateParser(this.koniec_poistenia).toString()))) {
+          this.parseDate(val),
+          this.parseDate(this.koniec_poistenia))) {
         return false
       } else if ((this.typ === 'kratkodobe') && (val !== null) &&
         (this.isValidDateBoolean(val)) && (this.koniec_poistenia !== null) &&
         (this.isValidDateBoolean(this.koniec_poistenia)) &&
         this.secondDateIsAfter(
-          new Date(this.dateParser(this.koniec_poistenia).toString()),
-          new Date(this.dateParser(val).toString()),
+          this.parseDate(this.koniec_poistenia),
+          this.parseDate(val),
         )) {
         return false
       } else if ((this.typ === 'kratkodobe') && (val !== null) &&
         (this.isValidDateBoolean(val)) && (this.koniec_poistenia !== null) &&
         (this.isValidDateBoolean(this.koniec_poistenia)) &&
         this.numberOfDays(
-          new Date(this.dateParser(this.koniec_poistenia).toString()),
-          new Date(this.dateParser(val).toString()),
+          this.parseDate(this.koniec_poistenia),
+          this.parseDate(val),
         ) > 364) {
         return false
       }
@@ -306,22 +293,22 @@ export default defineComponent({
         (this.isValidDateBoolean(val)) && (this.formData.zaciatok_poistenia !== null) &&
         (this.isValidDateBoolean(this.formData.zaciatok_poistenia)) &&
         this.datesAreOnSameDay(
-          new Date(this.dateParser(val).toString()),
-          new Date(this.dateParser(this.formData.zaciatok_poistenia).toString()))) {
+          this.parseDate(val),
+          this.parseDate(this.formData.zaciatok_poistenia))) {
         return false
       } else if ((this.typ === 'kratkodobe') && (val !== null) &&
         (this.isValidDateBoolean(val)) && (this.formData.zaciatok_poistenia !== null) &&
         (this.isValidDateBoolean(this.formData.zaciatok_poistenia)) &&
         this.secondDateIsAfter(
-          new Date(this.dateParser(val).toString()),
-          new Date(this.dateParser(this.formData.zaciatok_poistenia).toString()))) {
+          this.parseDate(val),
+          this.parseDate(this.formData.zaciatok_poistenia))) {
         return false
       } else if ((this.typ === 'kratkodobe') && (val !== null) &&
         (this.isValidDateBoolean(val)) && (this.formData.zaciatok_poistenia !== null) &&
         (this.isValidDateBoolean(this.formData.zaciatok_poistenia)) &&
         this.numberOfDays(
-          new Date(this.dateParser(val).toString()),
-          new Date(this.dateParser(this.formData.zaciatok_poistenia).toString()))
+          this.parseDate(val),
+          this.parseDate(this.formData.zaciatok_poistenia))
         > 364) {
         return false
       }
@@ -333,12 +320,28 @@ export default defineComponent({
         first.getDate() === second.getDate();
     },
     secondDateIsAfter(first, second) {
-      return second.valueOf() > first.valueOf();
+      return second.valueOf() > first.valueOf()
     },
     numberOfDays(first, second) {
-      let Difference_In_Time = second.getTime() - first.getTime()
-      let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-      return Math.abs(Difference_In_Days) + 1
+      const firstUtc = Date.UTC(first.getFullYear(), first.getMonth(), first.getDate())
+      const secondUtc = Date.UTC(second.getFullYear(), second.getMonth(), second.getDate())
+      const differenceInDays = Math.abs(secondUtc - firstUtc) / (1000 * 3600 * 24)
+      return differenceInDays + 1
+    },
+    hasPripoistenie(id) {
+      return Array.isArray(this.formData.pripoistenia) && this.formData.pripoistenia.includes(id)
+    },
+    getPripoisteniePrirazka(id, priceType) {
+      if (!this.hasPripoistenie(id)) {
+        return 1
+      }
+
+      const pripoistenie = this.pripoisteniaMoznosti.find((item) => item.id === id)
+      if (!pripoistenie) {
+        return 1
+      }
+
+      return pripoistenie[`${priceType}_prirazka`] || 1
     },
     resetVysledok() {
       this.vysledok = ''

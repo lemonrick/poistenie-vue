@@ -4,14 +4,17 @@
 
 
 ```bash
-yarn
-# or
-npm install
+yarn install
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
-quasar dev
+yarn dev
+```
+
+### Build the app for production
+```bash
+yarn build
 ```
 
 <p>
