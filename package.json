@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "dev": "quasar dev",
     "build": "quasar build"
   },
@@ -16,19 +17,24 @@
     "@quasar/extras": "^1.17.0",
     "axios": "^1.13.5",
     "core-js": "^3.48.0",
-    "pinia": "^2.3.1",
+    "pinia": "^3.0.4",
     "quasar": "^2.18.6",
     "vue": "^3.5.28",
-    "vue-router": "^4.6.4"
+    "vue-router": "^5.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.0",
     "@babel/eslint-parser": "^7.28.6",
-    "@quasar/app-webpack": "^3.15.1",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.2",
-    "eslint-plugin-vue": "^9.33.0",
-    "eslint-webpack-plugin": "^3.1.1",
-    "prettier": "^2.8.8"
+    "@quasar/app-vite": "^2.4.1",
+    "autoprefixer": "^10.4.24",
+    "eslint": "^9.39.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.8.0",
+    "globals": "^17.3.0",
+    "prettier": "^3.8.1",
+    "tslib": "^2.8.1",
+    "vitest": "^3.2.4",
+    "vue-eslint-parser": "^10.4.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
@@ -42,7 +48,7 @@
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": ">= 22.0.0",
     "yarn": ">= 1.21.1"
   }
 }

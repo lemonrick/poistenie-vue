@@ -1,26 +1,27 @@
-# Vue.js App (poistenie-vue)
+# ✈️ Travel Insurance Calculator (Quasar + Vue)
 
 [Live Demo](https://lemonrick.github.io/poistenie-vue/)
 
+## ✅ Requirements
+- Node.js `22+`
+- Yarn `1.22+`
 
+## 📦 Install
 ```bash
 yarn install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+## 🛠️ Development
 ```bash
 yarn dev
 ```
 
-### Build the app for production
+## 🚀 Production Build
 ```bash
 yarn build
 ```
 
-<p>
-<img src="img/1.png" width="600"/>
-&nbsp;
-<img src="img/2.png" width="600"/>
-&nbsp;
-<img src="img/3.png" width="600"/>
-</p>
+## 🧪 Tests
+```bash
+yarn test
+```
